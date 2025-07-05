@@ -19,7 +19,7 @@ log_metric() {
 }
 
 # CPU usage
-CPU_USAGE=$(top -bn1 | grep "Cpu(s)" | awk '{print 100 - $8}')
+CPU_USAGE=$(mpstat 1 1 | awk '/Average/ {printf "%.1f\n", 100 - $NF}')
 CPU_USAGE_INT=${CPU_USAGE%.*}
 
 # RAM usage
