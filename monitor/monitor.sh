@@ -24,8 +24,8 @@ CPU_USAGE_INT=${CPU_USAGE%.*}
 
 # RAM usage
 MEM_TOTAL=$(free -m | awk '/^Mem:/ {print $2}')
-MEM_USED=$(free -m | awk '/^Mem:/ {print $3}')
-MEM_USAGE=$(( MEM_USED * 100 / MEM_TOTAL))
+MEM_AVAILABLE=$(free -m | awk '/^Mem:/ {print $7}')
+MEM_USAGE=$(( (MEM_TOTAL - MEM_AVAILABLE) * 100 / MEM_TOTAL ))
 
 # Disk usage (/)
 DISK_USAGE=$(df / | tail -1 | awk '{print $5}' | tr -d '%')
