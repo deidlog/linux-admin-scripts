@@ -1,11 +1,7 @@
 #!/bin/bash
 set -e
 
-LOG_DIR="/var/log/monitor"
-CPU_THRESHOLD=80
-MEM_THRESHOLD=80
-DISK_THRESHOLD=90
-NETWORK_INTERFACE="enp0s3"
+source "$(dirname "$0")/config.env"
 
 LOG_FILE="$LOG_DIR/monitor.log"
 
@@ -35,11 +31,11 @@ while true; do
 
     # Network usage (rx/tx)
     NET_INTERFACE="$NETWORK_INTERFACE"
-    RX_BYTES_BEFORE=$(cat /sys/class/net/$NET_INTERFACE/statistics/rx_bytes)
-    TX_BYTES_BEFORE=$(cat /sys/class/net/$NET_INTERFACE/statistics/tx_bytes)
+    RX_BYTES_BEFORE=$(cat /sys/class/net/"$NET_INTERFACE"/statistics/rx_bytes)
+    TX_BYTES_BEFORE=$(cat /sys/class/net/"$NET_INTERFACE"/statistics/tx_bytes)
     sleep 60
-    RX_BYTES_AFTER=$(cat /sys/class/net/$NET_INTERFACE/statistics/rx_bytes)
-    TX_BYTES_AFTER=$(cat /sys/class/net/$NET_INTERFACE/statistics/tx_bytes)
+    RX_BYTES_AFTER=$(cat /sys/class/net/"$NET_INTERFACE"/statistics/rx_bytes)
+    TX_BYTES_AFTER=$(cat /sys/class/net/"$NET_INTERFACE"/statistics/tx_bytes)
     RX_RATE=$(( (RX_BYTES_AFTER - RX_BYTES_BEFORE) / 1024 )) # KB per minute
     TX_RATE=$(( (TX_BYTES_AFTER - TX_BYTES_BEFORE) / 1024 )) # KB per minute
 
